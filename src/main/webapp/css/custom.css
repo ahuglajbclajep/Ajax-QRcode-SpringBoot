@@ -1,0 +1,7 @@
+body { padding-top: 30px; }
+
+@media screen and (max-width: 991px) {
+    .col-md-margin-top-15 {
+        margin-top: 15px;
+    }
+}

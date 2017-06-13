@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AjaxQrcodeApplication {
 
-	@GetMapping("/")
+	@GetMapping("/echo")
 	public String hello() {
 		return "Hello World!";
 	}
