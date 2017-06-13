@@ -23,6 +23,8 @@ repositories.mavenCentral()
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    compile 'com.google.zxing:javase:3.3.0'
 }
 
 task zip(type: Zip, dependsOn: build) {
