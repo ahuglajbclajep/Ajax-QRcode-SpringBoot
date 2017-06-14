@@ -15,6 +15,7 @@ function ajax(text) {
     $.ajax({
         url: "ajax",
         type: "POST",
+        contentType: "text/plain",
         data: text,
         xhr: function () {
             var xhr = new XMLHttpRequest();

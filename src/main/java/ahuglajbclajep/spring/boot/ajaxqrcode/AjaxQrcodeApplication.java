@@ -6,20 +6,15 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.EnumMap;
 import java.util.Objects;
 
@@ -27,15 +22,12 @@ import java.util.Objects;
 @RestController
 public class AjaxQrcodeApplication {
 
-	@PostMapping(value = "/ajax", produces = MediaType.IMAGE_JPEG_VALUE)
-	public Resource hello(@RequestBody String body) {
-		if (Objects.equals(body, "")) throw new IllegalArgumentException();
-
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			ImageIO.write(create(body), "jpg", baos);
-			return new ByteArrayResource(baos.toByteArray());
+	@PostMapping("/ajax")
+	public void hello(@RequestBody String body, HttpServletResponse res) {
+		try (OutputStream out = res.getOutputStream()) {
+			ImageIO.write(create(body), "jpg", out);
 		} catch (IOException | WriterException e) {
-			throw new IllegalArgumentException();
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
 	}
 
@@ -44,6 +36,7 @@ public class AjaxQrcodeApplication {
 		// adding a margin (4*2 pixels), and comparing it with the specified length.
 		final int SIZE = 200;
 
+		if (Objects.equals(contents, "")) throw new WriterException();
 		return MatrixToImageWriter.toBufferedImage(
 				new com.google.zxing.qrcode.QRCodeWriter().encode(contents, BarcodeFormat.QR_CODE, SIZE, SIZE,
 						new EnumMap<EncodeHintType, Object>(EncodeHintType.class) {
@@ -53,11 +46,6 @@ public class AjaxQrcodeApplication {
 						}
 				)
 		);
-	}
-
-	@ExceptionHandler(IllegalArgumentException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public void handling() {
 	}
 
 	public static void main(String[] args) {
