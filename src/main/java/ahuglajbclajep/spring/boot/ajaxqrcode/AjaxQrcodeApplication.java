@@ -4,6 +4,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
@@ -22,13 +24,18 @@ import java.util.EnumMap;
 @SpringBootApplication
 @RestController
 public class AjaxQrcodeApplication {
+	private final static Logger logger = LoggerFactory.getLogger(AjaxQrcodeApplication.class);
 
 	@PostMapping("/create")
 	public ResponseEntity<byte[]> getQRcode(@RequestBody String body) {
+		// If body is empty, Spring will display 'Failed to read HTTP message' and processing will be aborted.
+		logger.info("Received request: body: [{}]", body);
+
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			ImageIO.write(createQRcode(body), "jpg", baos);
 			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(baos.toByteArray());
 		} catch (IOException | WriterException e) {
+			logger.info("Failed to create QRcode", e);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
@@ -38,7 +45,6 @@ public class AjaxQrcodeApplication {
 		// adding a margin (4*2 pixels), and comparing it with the specified length.
 		final int SIZE = 200;
 
-		if (contents.isEmpty()) throw new IllegalArgumentException("Empty string is not supported");
 		return MatrixToImageWriter.toBufferedImage(
 			new com.google.zxing.qrcode.QRCodeWriter().encode(contents, BarcodeFormat.QR_CODE, SIZE, SIZE,
 				new EnumMap<EncodeHintType, Object>(EncodeHintType.class) {
