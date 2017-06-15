@@ -3,6 +3,8 @@
 Examples of Ajax and SpringBoot.  
 This project is based on [Ajax-QRcode](https://github.com/ahuglajbclajep/Ajax-QRcode).
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Usage
 ### Install
 ```sh
