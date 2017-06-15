@@ -18,13 +18,12 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.EnumMap;
-import java.util.Objects;
 
 @SpringBootApplication
 @RestController
 public class AjaxQrcodeApplication {
 
-	@PostMapping("/ajax")
+	@PostMapping("/create")
 	public ResponseEntity<byte[]> getQRcode(@RequestBody String body) {
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			ImageIO.write(createQRcode(body), "jpg", baos);
@@ -39,7 +38,7 @@ public class AjaxQrcodeApplication {
 		// adding a margin (4*2 pixels), and comparing it with the specified length.
 		final int SIZE = 200;
 
-		if (Objects.equals(contents, "")) throw new WriterException();
+		if (contents.isEmpty()) throw new IllegalArgumentException("Empty string is not supported");
 		return MatrixToImageWriter.toBufferedImage(
 			new com.google.zxing.qrcode.QRCodeWriter().encode(contents, BarcodeFormat.QR_CODE, SIZE, SIZE,
 				new EnumMap<EncodeHintType, Object>(EncodeHintType.class) {
@@ -51,7 +50,7 @@ public class AjaxQrcodeApplication {
 		);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String... args) {
 		SpringApplication.run(AjaxQrcodeApplication.class, args);
 	}
 }
