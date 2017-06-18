@@ -31,6 +31,6 @@ function ajax(text) {
         $("#qrcode_image").attr("src", URL.createObjectURL(response));
     })
     .fail(function () {
-        alert("Connection failed.");
+        alert("Can't resolve request.");
     });
 }
