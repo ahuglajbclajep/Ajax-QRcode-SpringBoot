@@ -1,9 +1,13 @@
-$("#submit_button").on("click", submit);
 var hash = location.hash.replace(/^#/, "");
 if (hash !== "") {
     ajax(hash);
     $("#input_text").val(hash);
 }
+
+$("#submit_button").click(submit);
+$("#input_text").keypress(function (event) {
+    if (event.which == 13) $("#submit_button").click();
+});
 
 function submit() {
     var text = $("#input_text").val();
