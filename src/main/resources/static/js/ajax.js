@@ -28,9 +28,11 @@ function ajax(text) {
         }
     })
     .done(function (response) {
+        $("#form").removeClass("has-error has-feedback");
         $("#qrcode_image").attr("src", URL.createObjectURL(response));
     })
     .fail(function () {
+        $("#form").addClass("has-error has-feedback");
         alert("Can't resolve request.");
     });
 }
