@@ -21,18 +21,25 @@ function ajax(text) {
     if (this.readyState == 4) {
       switch (this.status) {
         case 200:
-          $("#form").removeClass("has-error has-feedback");
-          $("#qrcode_image").attr("src", URL.createObjectURL(this.response));
+          done(this.response);
           break;
         default:
-          $("#form").addClass("has-error has-feedback");
-          alert("Can't resolve request.");
+          fail();
       }
     }
   };
-
   xhr.open("POST", "create");
   xhr.setRequestHeader("Content-Type", "text/plain");
   xhr.responseType = "blob";
   xhr.send(text);
+}
+
+function done(response) {
+  $("#form").removeClass("has-error has-feedback");
+  $("#qrcode_image").attr("src", URL.createObjectURL(response));
+}
+
+function fail() {
+  $("#form").addClass("has-error has-feedback");
+  alert("Can't resolve request.");
 }
