@@ -36,7 +36,7 @@ public class AjaxQrcodeApplication {
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(baos.toByteArray());
         } catch (IOException | WriterException e) {
             logger.info("Failed to create QRcode", e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
