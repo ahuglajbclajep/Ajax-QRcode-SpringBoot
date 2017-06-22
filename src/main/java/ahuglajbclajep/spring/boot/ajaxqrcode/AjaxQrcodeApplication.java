@@ -24,39 +24,39 @@ import java.util.EnumMap;
 @SpringBootApplication
 @RestController
 public class AjaxQrcodeApplication {
-	private final static Logger logger = LoggerFactory.getLogger(AjaxQrcodeApplication.class);
+    private final static Logger logger = LoggerFactory.getLogger(AjaxQrcodeApplication.class);
 
-	@PostMapping("/create")
-	public ResponseEntity<byte[]> getQRcode(@RequestBody String body) {
-		// If body is empty, Spring will display 'Failed to read HTTP message' and processing will be aborted.
-		logger.info("Received request: body: [{}]", body);
+    @PostMapping("/create")
+    public ResponseEntity<byte[]> getQRcode(@RequestBody String body) {
+        // If body is empty, Spring will display 'Failed to read HTTP message' and processing will be aborted.
+        logger.info("Received request: body: [{}]", body);
 
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			ImageIO.write(createQRcode(body), "jpg", baos);
-			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(baos.toByteArray());
-		} catch (IOException | WriterException e) {
-			logger.info("Failed to create QRcode", e);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-	}
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        ImageIO.write(createQRcode(body), "jpg", baos);
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(baos.toByteArray());
+        } catch (IOException | WriterException e) {
+            logger.info("Failed to create QRcode", e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
-	private BufferedImage createQRcode(String contents) throws WriterException {
-		// The width and height of the image are determined by first creating an image,
-		// adding a margin (4*2 pixels), and comparing it with the specified length.
-		final int SIZE = 200;
+    private BufferedImage createQRcode(String contents) throws WriterException {
+        // The width and height of the image are determined by first creating an image,
+        // adding a margin (4*2 pixels), and comparing it with the specified length.
+        final int SIZE = 200;
 
-		return MatrixToImageWriter.toBufferedImage(
-			new com.google.zxing.qrcode.QRCodeWriter().encode(contents, BarcodeFormat.QR_CODE, SIZE, SIZE,
-				new EnumMap<EncodeHintType, Object>(EncodeHintType.class) {
-					{
-						put(EncodeHintType.CHARACTER_SET, "UTF-8");
-					}
-				}
-			)
-		);
-	}
+        return MatrixToImageWriter.toBufferedImage(
+            new com.google.zxing.qrcode.QRCodeWriter().encode(contents, BarcodeFormat.QR_CODE, SIZE, SIZE,
+                new EnumMap<EncodeHintType, Object>(EncodeHintType.class) {
+                    {
+                        put(EncodeHintType.CHARACTER_SET, "UTF-8");
+                    }
+                }
+            )
+        );
+    }
 
-	public static void main(String... args) {
-		SpringApplication.run(AjaxQrcodeApplication.class, args);
-	}
+    public static void main(String... args) {
+        SpringApplication.run(AjaxQrcodeApplication.class, args);
+    }
 }
