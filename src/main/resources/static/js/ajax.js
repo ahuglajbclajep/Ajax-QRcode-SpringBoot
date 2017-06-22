@@ -17,20 +17,20 @@ function submit() {
 
 function ajax(text) {
   var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      switch (this.status) {
-        case 200:
-          done(this.response);
-          break;
-        default:
-          fail();
-      }
-    }
-  };
   xhr.open("POST", "create");
   xhr.setRequestHeader("Content-Type", "text/plain");
   xhr.responseType = "blob";
+  xhr.timeout = 2000;
+  xhr.onloadend = function () {
+    switch (this.status) {
+      case 200:
+        done(this.response);
+        break;
+      default:
+        fail();
+    }
+  };
+  xhr.ontimeout = fail();
   xhr.send(text);
 }
 
