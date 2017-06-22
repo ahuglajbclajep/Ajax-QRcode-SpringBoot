@@ -5,8 +5,8 @@ if (hash !== "") {
 }
 
 $("#submit_button").click(submit);
-$("#input_text").keypress(function (event) {
-  if (event.which == 13) $("#submit_button").click();
+$("#input_text").keypress(function (e) {
+  if (e.which == 13) $("#submit_button").click();
 });
 
 function submit() {
@@ -30,7 +30,9 @@ function ajax(text) {
         fail();
     }
   };
-  xhr.ontimeout = fail();
+  xhr.ontimeout = function (e) {
+    fail();
+  };
   xhr.send(text);
 }
 
