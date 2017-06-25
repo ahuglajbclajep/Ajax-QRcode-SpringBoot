@@ -1,4 +1,4 @@
-package ahuglajbclajep.spring.boot.ajaxqrcode;
+package ahuglajbclajep.spring.boot.ajaxqrcode.controller;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -6,8 +6,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +19,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.EnumMap;
 
-@SpringBootApplication
 @RestController
-public class AjaxQrcodeApplication {
-    private final static Logger logger = LoggerFactory.getLogger(AjaxQrcodeApplication.class);
+public class QRcode {
+    private final static Logger logger = LoggerFactory.getLogger(QRcode.class);
 
     @PostMapping("/create")
     public ResponseEntity<byte[]> getQRcode(@RequestBody String body) {
@@ -32,7 +29,7 @@ public class AjaxQrcodeApplication {
         logger.info("Received request: body: [{}]", body);
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-        ImageIO.write(createQRcode(body), "jpg", baos);
+            ImageIO.write(createQRcode(body), "jpg", baos);
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(baos.toByteArray());
         } catch (IOException | WriterException e) {
             logger.info("Failed to create QRcode", e);
@@ -54,9 +51,5 @@ public class AjaxQrcodeApplication {
                 }
             )
         );
-    }
-
-    public static void main(String... args) {
-        SpringApplication.run(AjaxQrcodeApplication.class, args);
     }
 }
