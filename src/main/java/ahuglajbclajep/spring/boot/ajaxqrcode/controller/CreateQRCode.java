@@ -20,24 +20,24 @@ import java.io.IOException;
 import java.util.EnumMap;
 
 @RestController
-public class QRcode {
-    private final static Logger logger = LoggerFactory.getLogger(QRcode.class);
+public class CreateQRCode {
+    private final static Logger logger = LoggerFactory.getLogger(CreateQRCode.class);
 
     @PostMapping("/create")
-    public ResponseEntity<byte[]> getQRcode(@RequestBody String body) {
+    public ResponseEntity<byte[]> sendImage(@RequestBody String body) {
         // If body is empty, Spring will display 'Failed to read HTTP message' and processing will be aborted.
         logger.info("Received request: body: [{}]", body);
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            ImageIO.write(createQRcode(body), "jpg", baos);
+            ImageIO.write(createQRCode(body), "jpg", baos);
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(baos.toByteArray());
         } catch (IOException | WriterException e) {
-            logger.info("Failed to create QRcode", e);
+            logger.info("Failed to create QRCode", e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-    private BufferedImage createQRcode(String contents) throws WriterException {
+    private BufferedImage createQRCode(String contents) throws WriterException {
         // The width and height of the image are determined by first creating an image,
         // adding a margin (4*2 pixels), and comparing it with the specified length.
         final int SIZE = 200;
