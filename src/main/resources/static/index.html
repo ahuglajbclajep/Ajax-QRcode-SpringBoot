@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Ajax-QRcode-SpringBoot</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+  <title>Ajax-QRcode-SpringBoot</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-    <div class="jumbotron">
-        <h1>Ajax-QRcode-SpringBoot</h1>
-        <p>Examples of Ajax and SpringBoot.</p>
-        <p><a class="btn btn-primary btn-lg" href="https://github.com/ahuglajbclajep/Ajax-QRcode-SpringBoot" role="button">GitHub &raquo;</a></p>
+  <div class="jumbotron">
+    <h1>Ajax-QRcode-SpringBoot</h1>
+    <p>Examples of Ajax and SpringBoot.</p>
+    <p><a class="btn btn-primary btn-lg" href="https://github.com/ahuglajbclajep/Ajax-QRcode-SpringBoot" role="button">GitHub &raquo;</a></p>
+  </div>
+  <div class="row">
+    <div class="col-xs-offset-1 col-xs-10 col-md-7">
+      <div class="input-group" id="form">
+        <input type="text" value="" required autofocus class="form-control" placeholder="contents" id="input_text">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" id="submit_button">make</button>
+        </span>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-xs-offset-1 col-xs-10 col-md-7">
-            <div class="input-group" id="form">
-                <input type="text" value="" required autofocus class="form-control" placeholder="contents" id="input_text">
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" id="submit_button">make</button>
-                </span>
-            </div>
-        </div>
-        <div class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3 col-md-margin-top-15">
-            <img src="" alt="QRcode" class="img-responsive img-thumbnail pull-right" id="qrcode_image">
-        </div>
+    <div class="col-xs-offset-1 col-xs-10 col-md-offset-0 col-md-3 col-md-margin-top-15">
+      <img src="" alt="QRcode" class="img-responsive img-thumbnail pull-right" id="qrcode_image">
     </div>
+  </div>
 </div>
 
 <!-- Javascript including Bootstrap core -->
