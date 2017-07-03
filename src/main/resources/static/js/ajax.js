@@ -37,11 +37,14 @@ function ajax(text) {
 }
 
 function done(response) {
-  $("#form").removeClass("has-error has-feedback");
-  $("#qrcode_image").attr("src", URL.createObjectURL(response));
+  $("#form").removeClass("has-error");
+  $("#qrcode_image").attr({
+    src: URL.createObjectURL(response),
+    alt: hash
+  });
 }
 
 function fail() {
-  $("#form").addClass("has-error has-feedback");
+  $("#form").addClass("has-error");
   alert("Can't resolve request.");
 }
