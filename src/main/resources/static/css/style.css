@@ -1,7 +1,10 @@
-body { padding-top: 30px; }
+body {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
 
 @media screen and (max-width: 991px) {
-    .col-md-margin-top-15 {
-        margin-top: 15px;
-    }
+  .col-md-margin-top-15 {
+    margin-top: 15px;
+  }
 }
