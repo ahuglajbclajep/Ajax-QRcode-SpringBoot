@@ -1,21 +1,24 @@
-var hash = location.hash.replace(/^#/, "");
-if (hash !== "") {
-  ajax(hash);
-  $("#input_text").val(hash);
-}
+onload = submitFromHash;
+onhashchange = submitFromHash;
 
-$("#submit_button").click(submit);
+$("#submit_button").click(submitFromForm);
 $("#input_text").keypress(function (e) {
   if (e.which == 13) $("#submit_button").click();
 });
 
-function submit() {
-  var text = $("#input_text").val();
-  ajax(text);
-  location.hash = text;
+function submitFromHash() {
+  var hash = location.hash.replace(/^#/,"");
+  $("#input_text").val(hash);
+  if (hash !== "") ajax(hash);
 }
 
-function ajax(text) {
+function submitFromForm() {
+  var text = $("#input_text").val();
+  location.hash = text;
+  if (text !== "") ajax(text);
+}
+
+function ajax(contents) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "create");
   xhr.setRequestHeader("Content-Type", "text/plain");
@@ -24,7 +27,7 @@ function ajax(text) {
   xhr.onloadend = function () {
     switch (this.status) {
       case 200:
-        done(this.response);
+        done(this.response, contents);
         break;
       default:
         fail();
@@ -33,14 +36,14 @@ function ajax(text) {
   xhr.ontimeout = function (e) {
     fail();
   };
-  xhr.send(text);
+  xhr.send(contents);
 }
 
-function done(response) {
+function done(response, contents) {
   $("#form").removeClass("has-error");
   $("#qrcode_image").attr({
     src: URL.createObjectURL(response),
-    alt: hash
+    alt: contents
   });
 }
 
