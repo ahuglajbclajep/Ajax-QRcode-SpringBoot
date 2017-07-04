@@ -34,7 +34,7 @@ function ajax(contents) {
     }
   };
   xhr.ontimeout = function (e) {
-    fail();
+    alert("Connection timed out.");
   };
   xhr.send(contents);
 }
